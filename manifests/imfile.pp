@@ -11,6 +11,7 @@
 # [*file_severity*]
 # [*run_file_monitor*]
 # [*persist_state_interval]
+# [*imfile_config_template_file*]
 #
 # === Variables
 #
@@ -30,6 +31,7 @@ define rsyslog::imfile(
   $file_severity = 'notice',
   $run_file_monitor = true,
   $persist_state_interval = 0,
+  $imfile_config_template_file = 'rsyslog/imfile.erb',
 ) {
 
 
@@ -40,7 +42,7 @@ define rsyslog::imfile(
     ensure  => file,
     owner   => 'root',
     group   => $rsyslog::run_group,
-    content => template('rsyslog/imfile.erb'),
+    content => template($imfile_config_template_file),
     require => Class['rsyslog::install'],
     notify  => Class['rsyslog::service'],
   }
